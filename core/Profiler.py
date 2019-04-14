@@ -6,11 +6,11 @@ class Profiler:
 	def exportText(self, fileName='', path='', data=''):
 		try:
 			file = path+'\\'+fileName
-			
+
 			with open(file, 'w', encoding='utf-8') as f:
 				f.write(data)
 				f.close()
-				
+
 			return(True)
 		except:
 			return(False)
@@ -23,21 +23,21 @@ class Profiler:
 			if not fileName.endswith(".prfl"):
 				fileName = fileName.replace(' ', '_')
 				fileName += '.prfl'
-		
+
 			path += fileName
 			data_prfl = ''
 
 		with open(path) as f:
 			data = f.read()
-			
+
 			if data != "":
 				data = json.loads(data)
 			else:
 				data = None
-			
+
 			f.close()
 			return(data)
-		
+
 		# except:
 		# 	return(False)
 
@@ -57,8 +57,8 @@ class Profiler:
 			with open(path, 'r') as prfl_data:
 				data = prfl_data.read()
 				prfl_data.close()
-				
-				if data != '':				
+
+				if data != '':
 					data_prfl = json.loads(data)
 					data_prfl.update(info)
 
@@ -70,11 +70,11 @@ class Profiler:
 				if data_prfl:
 					data = json.dumps(data_prfl)
 				else:
-					data = json.dumps(info)	
-				
+					data = json.dumps(info)
+
 				f.write(data)
 				f.close()
-			
+
 			return(True)
 		except:
 			return(False)
@@ -83,24 +83,24 @@ class Profiler:
 	# def createProfile(name='', path='', **info):
 	# 	try:
 	# 		f = open(path+""+name, 'w')
-			
+
 	# 		for domain in info:
 	# 			url = info.get(domain)
 	# 			if url != "":
 	# 				f.write("[URL] %s" % (url))
 
-	# 		f.close()	
+	# 		f.close()
 	# 		return(True)
 
 	# 	except:
 	# 		return(False)
 
 
-			
+
 	def loadDatabase(self, path):
 		ProfilesDic = {}
 		x = 1
-	
+
 		datas = os.listdir(path)
 		size = os.path.getsize(path)
 		sizeOfDB = size / 1000
@@ -143,7 +143,7 @@ class Profiler:
 			dictsJoined[key] = dicts.get(key)
 
 		return(dictsJoined)
-		
+
 	def showAllProfiles(self, database=''):
 		ProfilesDic = database
 		table_data = [
@@ -165,7 +165,7 @@ class Profiler:
 		def nameToFile(name):
 			nameSplit = name.split(" ")
 			nameCapital = []
-			
+
 			for n in nameSplit:
 				nameCapital.append(n.capitalize())
 
@@ -175,10 +175,10 @@ class Profiler:
 			elif len(nameSplit) > 1:
 				nameFile = ""
 				x = 0
-			
+
 				# while x < len(nameSplit):
 				# 	nameFile += nameCapital[x]
-					
+
 				# 	if x == len(nameSplit) -1:
 				# 		nameFile += '.prfl'
 				# 	else:
@@ -196,8 +196,11 @@ class Profiler:
 
 		def reverseName(name):
 			nameSplit = name.split(" ")
-			nameReversed = "%s %s" % (nameSplit[1], nameSplit[0])
-			return(nameReversed.capitalize())
+			if nameSplit == 2:
+				nameReversed = "%s %s" % (nameSplit[1], nameSplit[0])
+				return(nameReversed.capitalize())
+			else:
+				return name.capitalize()
 
 		# def searchProfiles(profile, database=''):
 		name = profile
@@ -281,5 +284,5 @@ class Profiler:
 				# print(table.table)
 
 				dic = {'id':num, 'name': name, 'file':nameFile}
-		
+
 		return(dic)
